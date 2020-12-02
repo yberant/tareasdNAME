@@ -50,6 +50,7 @@ func (server *Server) ChunksOrder(req *OrderReq, stream ClientName_ChunksOrderSe
 		muchotexto := s.Text()
 		
 		var nombre string
+		var partes int
 		
 		if len(muchotexto)>0{
 			//fmt.Println("text: ",muchotexto)
