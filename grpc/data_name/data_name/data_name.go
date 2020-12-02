@@ -158,4 +158,5 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 		parte = parte + 1
 	}
 	mutex.Unlock()
+	return nil
 }
