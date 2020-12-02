@@ -10,8 +10,10 @@ import (
 	"bufio"
 	"strconv"
 	"strings"
+	"sync"
 	//"reflect"
 )
+
 
 type Server struct {
 	Probability float64
@@ -65,8 +67,9 @@ func (server *Server) RequestOrder(stream DataName_RequestOrderServer) error {
 	return nil
 }
 
-//similar a lo RequestOrder, pero en lugar
+var mutex = &sync.Mutex{}
 
+//similar a lo RequestOrder, pero ahora recibe los ordenes y los anota en el log
 func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 	//fmt.Println("Inform Order")
 	file, err := os.OpenFile("namenode/log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)  
@@ -80,6 +83,7 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 	var fileName string
 	parte := 0
 	*(Server.BookNum)=*(Server.BookNum)+1
+	mutex.Lock()//esto solo sería útil en el caso de que el algoritmo sea centralizado, pues si es distribuído es imposible que dos dns anoten en el log gracias al algoritmo de rikart/agrawala
 	for {
 		//Recibe archivo desde chunk transfer filename o chunk_id+node_id
 		ordReq, err := stream.Recv()
@@ -153,4 +157,5 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 		}
 		parte = parte + 1
 	}
+	mutex.Unlock()
 }
