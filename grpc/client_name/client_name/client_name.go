@@ -48,20 +48,22 @@ func (server *Server) ChunksOrder(req *OrderReq, stream ClientName_ChunksOrderSe
 		
 		errCheck(s.Err())
 		muchotexto := s.Text()
-		if len(muchotexto)<=1{
-			continue
+		
+		var nombre string
+		
+		if len(muchotexto)>0{
+			//fmt.Println("text: ",muchotexto)
+			//fmt.Println("len text: ",len(muchotexto))
+			separados := strings.Split(muchotexto, " ")
+			nombre := separados[0]
+			partes, err6 := strconv.Atoi(separados[1])
+			errCheck(err6)
+			/*fmt.Println("el nombre del libro es: "+nombre+"\n")
+			fmt.Println("la cantidad de partes son: ")
+			fmt.Print(partes)
+			fmt.Println("\n")*/
+			
 		}
-		//fmt.Println("text: ",muchotexto)
-		//fmt.Println("len text: ",len(muchotexto))
-		separados := strings.Split(muchotexto, " ")
-		nombre := separados[0]
-		partes, err6 := strconv.Atoi(separados[1])
-		errCheck(err6)
-		/*fmt.Println("el nombre del libro es: "+nombre+"\n")
-		fmt.Println("la cantidad de partes son: ")
-		fmt.Print(partes)
-		fmt.Println("\n")*/
-
 		
 		if strings.Compare(nombre, fileName) == 0{
 			for i := 0; i < partes; i++ {
