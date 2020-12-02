@@ -4,7 +4,7 @@ import(
 	//"io"
 	"bufio"
 	"strings"
-	"fmt"
+	//"fmt"
 	//"math/rand"
 	//"time"
 	//"io/ioutil"
@@ -30,15 +30,15 @@ func errCheck(err error) {
 func (server *Server) ChunksOrder(req *OrderReq, stream ClientName_ChunksOrderServer) error{
 	
 	fileName:=req.GetFilename()
-	fmt.Println("Buscamos: "+fileName+"\n")
-	fmt.Println("abriendo namenode/log.txt")
+	//fmt.Println("Buscamos: "+fileName+"\n")
+	//fmt.Println("abriendo namenode/log.txt")
 	//tengo que abrir el log y buscar el libro
 	//como el título está seguido de la cantidad de partes puedo abrir un for que 
 	//itere la cantidad de veces necesarias para poder obtener todas las partes y
 	//por cada iteración enviar un OrderRes de respuesta.
 	f, err5 := os.Open("namenode/log.txt")
     errCheck(err5)
-	fmt.Println("libro abierto")
+	//fmt.Println("libro abierto")
     defer func() {
     	f.Close()
     }()
@@ -48,8 +48,11 @@ func (server *Server) ChunksOrder(req *OrderReq, stream ClientName_ChunksOrderSe
 		
 		errCheck(s.Err())
 		muchotexto := s.Text()
-		fmt.Println("text: ",muchotexto)
-		fmt.Println("len text: ",len(muchotexto))
+		if len(muchotexto)<=1{
+			continue
+		}
+		//fmt.Println("text: ",muchotexto)
+		//fmt.Println("len text: ",len(muchotexto))
 		separados := strings.Split(muchotexto, " ")
 		nombre := separados[0]
 		partes, err6 := strconv.Atoi(separados[1])
