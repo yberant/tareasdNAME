@@ -36,7 +36,7 @@ func (server *Server) UploadFile(stream ClientData_UploadFileServer) error{
 	for{
 		upReq,err:=stream.Recv()
 		if err == io.EOF{
-			//fmt.println("sending chunks to friends")
+			fmt.println("sending chunks to friends")
 
 			err=server.SendChunksToOtherDataNodes(totalChunks, fileName)//ver archivo "chunktransfer"".go, en este mismo paquete
 
@@ -63,7 +63,7 @@ func (server *Server) UploadFile(stream ClientData_UploadFileServer) error{
 				Message:fmt.Sprintf("Failed: %v\n",err),
 			})
 		}
-		//fmt.Printf("type: %T\n",upreq.Data)
+		fmt.Printf("type: %T\n",upreq.Data)
 		switch upReq.Req.(type){
 		case *UploadReq_DataChunk:
 			totalChunks=append(totalChunks, upReq.Req.(*UploadReq_DataChunk).DataChunk)
@@ -76,7 +76,7 @@ func (server *Server) UploadFile(stream ClientData_UploadFileServer) error{
 
 		case *UploadReq_FileName:
 			fileName=upReq.Req.(*UploadReq_FileName).FileName
-			//fmt.println("receiving file of name: "+fileName)
+			fmt.println("receiving file of name: "+fileName)
 		}
 	}
 	
@@ -148,13 +148,14 @@ func (server *Server) getFileChunk(fileName string,chunkId int64) ([]byte, error
 }
 
 func(server *Server) SendChunksToDataNode(chunks []*data_data.TransferReq, cli data_data.DataDataClient)(error){
-	//fmt.println("sending chunks to other data node")
+	fmt.println("sending chunks to other data node")
 
 	stream,err:=cli.ChunksTransfer(context.Background())
 	if err!=nil{
 		return err
 	}
 	for _,chunk:=range chunks{
+		fmt.Println("chunk")
 		if err:=stream.Send(chunk);err!=nil{
 			*(server.Messages)=*(server.Messages)+1
 			return err
