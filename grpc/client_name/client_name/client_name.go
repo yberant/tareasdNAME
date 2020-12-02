@@ -4,7 +4,7 @@ import(
 	//"io"
 	"bufio"
 	"strings"
-	//"fmt"
+	_ "fmt"
 	//"math/rand"
 	//"time"
 	//"io/ioutil"
@@ -51,8 +51,8 @@ func (server *Server) ChunksOrder(req *OrderReq, stream ClientName_ChunksOrderSe
 		
 		var nombre string
 		var partes int
-		_:=nombre
-		_:=partes
+		_=nombre
+		_=partes
 		
 		if len(muchotexto)>0{
 			//fmt.Println("text: ",muchotexto)
