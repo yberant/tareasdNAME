@@ -93,12 +93,14 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 			w.Flush()
 			//fmt.Print("Sending Response (inform order): \n")
 			*(Server.Messages)=*(Server.Messages)+1
+			mutex.Unlock()
 			return stream.SendAndClose(&OrderRes{
 				ResCode: OrderResCode_Yes,
 			})
 		}
 		if err != nil {
-			return nil
+			mutex.Unlock()
+			return err
 		}
 		//fmt.Printf("type: %T\n",upreq.Data)
 		switch ordReq.Req.(type) {
@@ -111,6 +113,7 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 			s := strconv.Itoa(parte)
 			f, err5 := os.Open("namenode/Dnodes.txt")
 			if err5 != nil{
+				mutex.Unlock()
 				log.Fatal(err5)
 			}
 			scan := bufio.NewScanner(f)
@@ -129,11 +132,13 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 				//fmt.printf("separados[0] es %s", separados[0])
 				id, errata := strconv.ParseInt(separados[0], 10, 64)
 				if errata!=nil{
+					mutex.Unlock
 					log.Fatal(errata)
 				}
 				if id == ordReq.Req.(*OrderReq_OrderData).OrderData.NodeId{
 					_, err := w.WriteString("parte_"+bookN+"_"+s+" "+separados[1] + "\n")
 					if err != nil {
+						mutex.Unlock()
 						log.Fatal(err)
 					}
 					f.Close()
@@ -152,7 +157,8 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 			//fmt.println("Receiving file of name in inform order: " + fileName)
 			_, err1 := w.WriteString(fileName + "\n")
   			if err1 != nil {
-    			log.Fatal(err1)
+				mutex.Unlock()
+    				log.Fatal(err1)
 			}
 		}
 		parte = parte + 1
