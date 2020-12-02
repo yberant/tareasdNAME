@@ -336,7 +336,7 @@ func (server *Server) RequestOrdersToNode(directions []*data_data.OrderReq, cli 
 		*(server.Messages)=*(server.Messages)+1
 
 	}
-	reply,err:=tream.CloseAndRecv()
+	reply,err:=stream.CloseAndRecv()
 	if reply.ResCode==data_data.OrderResCode_Yes{
 		//fmt.println("request accepted")
 		return nil, true
