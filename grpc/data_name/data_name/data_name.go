@@ -132,7 +132,7 @@ func (Server *Server) InformOrder(stream DataName_InformOrderServer) error {
 				//fmt.printf("separados[0] es %s", separados[0])
 				id, errata := strconv.ParseInt(separados[0], 10, 64)
 				if errata!=nil{
-					mutex.Unlock
+					mutex.Unlock()
 					log.Fatal(errata)
 				}
 				if id == ordReq.Req.(*OrderReq_OrderData).OrderData.NodeId{
