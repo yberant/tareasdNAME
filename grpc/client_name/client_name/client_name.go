@@ -48,6 +48,8 @@ func (server *Server) ChunksOrder(req *OrderReq, stream ClientName_ChunksOrderSe
 		
 		errCheck(s.Err())
 		muchotexto := s.Text()
+		fmt.Println("text: ",muchotexto)
+		fmt.Println("len text: ",len(muchotexto))
 		separados := strings.Split(muchotexto, " ")
 		nombre := separados[0]
 		partes, err6 := strconv.Atoi(separados[1])
