@@ -209,11 +209,6 @@ func (server *Server) SendChunksToOtherDataNodes(chunks []*Chunk, fileName strin
 
 	//fmt.println("done")
 
-	//TODO: ENVIAR INFO A LOG DEL NAMENODE, LUEGO DE SOLUCIONAR LA WEAA CON EL ALGORITMO
-	//
-
-
-
 	//stream,err:=server.NameNode.InformOrder(context.Background(),numberOfChunks int)
 	//for i,totalChunks:=range nodeidsorders{
 	//	stream.Send(data_name.OrderReq{...})
@@ -277,6 +272,9 @@ func (server *Server) SendChunksToOtherDataNodes(chunks []*Chunk, fileName strin
 	return nil
 
 }
+
+
+//envia un request de distribucion a otros namenode
 func (server *Server) CentralizedRequest(directions []*data_name.OrderReq, cli data_name.DataNameClient) (error, bool){
 	//fmt.println("sending the requests to name node")
 	stream,err:=cli.RequestOrder(context.Background())
@@ -302,6 +300,7 @@ func (server *Server) CentralizedRequest(directions []*data_name.OrderReq, cli d
 	return nil,true
 }
 
+//envia un request de distribucion a otros datanodes
 func (server *Server) DistributedRequest(directions []*data_data.OrderReq) (error, bool){
 //en la versión "centralizada", lo unico que cambiaría es que el request se le hace al name node y no a los otros datanodes
 	//le pregunto al otro datanode A
