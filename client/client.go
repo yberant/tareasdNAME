@@ -12,10 +12,10 @@ import(
 	"math/rand"
 	"time"
 	"io"
-	"os"
-	"bufio"
-	"strings"
-	"strconv"
+	//"os"
+	//"bufio"
+	//"strings"
+	//"strconv"
 )
 
 func SetNameNodeConnection()(client_name.ClientNameClient, *grpc.ClientConn){
