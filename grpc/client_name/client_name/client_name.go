@@ -30,13 +30,15 @@ func errCheck(err error) {
 func (server *Server) ChunksOrder(req *OrderReq, stream ClientName_ChunksOrderServer) error{
 	
 	fileName:=req.GetFilename()
-	//fmt.Println("Buscamos: "+fileName+"\n")
-	//tengo que abrir el log y buscar el maldito libro
+	fmt.Println("Buscamos: "+fileName+"\n")
+	fmt.Println("abriendo namenode/log.txt")
+	//tengo que abrir el log y buscar el libro
 	//como el título está seguido de la cantidad de partes puedo abrir un for que 
 	//itere la cantidad de veces necesarias para poder obtener todas las partes y
 	//por cada iteración enviar un OrderRes de respuesta.
 	f, err5 := os.Open("namenode/log.txt")
     errCheck(err5)
+	fmt.Println("libro abierto")
     defer func() {
     	f.Close()
     }()
