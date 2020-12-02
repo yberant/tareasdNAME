@@ -335,27 +335,6 @@ func main(){
 		case "2":
 			//descargar archivo
 
-			f, err5 := os.Open("namenode/log.txt")
-			errCheck(err5)
-			s := bufio.NewScanner(f)
-			//lee primero una vez para obtener el título y el número de partes
-			fmt.Println("archivos disponibles:")
-			for s.Scan(){
-				if s.Text() == ""{
-					break
-				}
-				errCheck(s.Err())
-				muchotexto := s.Text()
-				separados := strings.Split(muchotexto, " ")
-				nombre := separados[0]
-				partes, err6 := strconv.Atoi(separados[1])
-				errCheck(err6)
-				fmt.Println(nombre)
-				for i := 0; i < partes; i++ {
-					s.Scan()
-				}
-			}
-			f.Close()
 			var fileDownload string
 			fmt.Println("Ingrese el nombre del archivo a descargar (incluir extensión \".pdf\"): \n")
 			fmt.Scanln(&fileDownload)
