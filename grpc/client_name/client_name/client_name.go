@@ -1,10 +1,10 @@
 package client_name
 
 import(
-	//"io"
+	"io"
 	"bufio"
 	"strings"
-	//"fmt"
+	"fmt"
 	//"math/rand"
 	//"time"
 	//"io/ioutil"
